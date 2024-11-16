@@ -23,7 +23,7 @@ const CustomerLogin = () => {
           </label>
           <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
         </div>
-        <button className="login-button">Login</button>
+        <button onClick={() => handleSelection('login')} className="login-button" >Login</button>
       </div>
     </div>
   );
