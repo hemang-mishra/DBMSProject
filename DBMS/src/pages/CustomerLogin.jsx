@@ -1,6 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "./LoginPage.css";
+
 const CustomerLogin = () => {
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handleLogin = () => {
+    navigate('/customer-page'); // Navigate to CustomerPage
+  };
+
   return (
     <div className="login-container">
       <header className="login-header">
@@ -23,10 +31,11 @@ const CustomerLogin = () => {
           </label>
           <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
         </div>
-        <button className="login-button">Login</button>
+        <button onClick={handleLogin} className="login-button">Login</button> {/* Add onClick */}
       </div>
     </div>
   );
 };
 
 export default CustomerLogin;
+
