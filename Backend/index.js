@@ -1,11 +1,15 @@
 const express = require('express');
-const app = express();
 const userRoutes = require('./routes/users');
-const productRoutes = require('./routes/products');
 
-app.use(express.json());
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-
+const app = express();
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Middleware
+app.use(express.json());
+
+// Routes
+app.use('/api/users', userRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
