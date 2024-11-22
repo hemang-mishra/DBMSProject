@@ -1,21 +1,24 @@
 const db = require('./dbConnection');
 
-const getAllUsers = () => {
+
+const addUserWithDetails = (user_id, username, isConsumer, password) => {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM users', (err, results) => {
+    db.query('INSERT INTO user (user_id, username, isConsumer, password) VALUES (?, ?, ?, ?)', [user_id, username, isConsumer, password], (err, results) => {
       if (err) return reject(err);
       resolve(results);
     });
   });
 };
 
-const addUser = (name, email) => {
+const getUserByUsernameAndPassword = (username, password) => {
   return new Promise((resolve, reject) => {
-    db.query('INSERT INTO users (name, email) VALUES (?, ?)', [name, email], (err, results) => {
+    db.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password], (err, results) => {
       if (err) return reject(err);
       resolve(results);
     });
   });
 };
 
-module.exports = { getAllUsers, addUser };
+
+
+module.exports = { addUserWithDetails, getUserByUsernameAndPassword };

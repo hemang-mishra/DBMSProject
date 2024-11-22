@@ -1,23 +1,26 @@
 const express = require('express');
-const { getAllUsers, addUser } = require('../db/users');
+const { addUserWithDetails, getUserByUsernameAndPassword  } = require('../db/users');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.post('/add', async (req, res) => {
   try {
-    const users = await getAllUsers();
-    res.json(users);
+    const user = await addUserWithDetails(req.body.user_id, req.body.username, req.body.isConsumer, req.body.password);
+    res.status(201).json(user);
   } catch (error) {
-    res.status(500).send('Error fetching users');
+    res.status(500).json({ error: error.message });
   }
 });
 
-router.post('/', async (req, res) => {
-  const { name, email } = req.body;
+router.post('/login', async (req, res) => {
   try {
-    await addUser(name, email);
-    res.status(201).send('User added');
+    const user = await getUserByUsernameAndPassword(req.body.username, req.body.password);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(401).json({ error: 'Invalid username or password' });
+    }
   } catch (error) {
-    res.status(500).send('Error adding user');
+    res.status(500).json({ error: error.message });
   }
 });
 
