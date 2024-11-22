@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material 3 Header</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <header class="material-header">
+        <!-- Logo Section -->
+        <div class="logo">
+            <span class="material-icons">eco</span> <span>GreenLeaf</span>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <div class="search-container">
+                <input type="text" placeholder="Search for products, categories..." aria-label="Search">
+                <button class="search-button"><span class="material-icons">search</span></button>
+            </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="material-button">
+                <span class="material-icons">shopping_cart</span>
+                <span>Cart</span>
+            </button>
+            <button class="material-button">
+                <span class="material-icons">inventory</span>
+                <span>Orders</span>
+            </button>
+            <button class="material-button">
+                <span class="material-icons">person</span>
+                <span>Profile</span>
+            </button>
+        
+
+        <!-- User Icon with Dropdown -->
+        <div class="user-dropdown">
+            
+                <!-- If user is logged in -->
+                <div class="user-icon" onclick="toggleDropdown()">
+                    <img src="assets/user_icon.png" alt="User Icon" />
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <p class="user-name">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+                    <a href="profile.php" class="dropdown-link">Profile</a>
+                    <a href="logout.php" class="dropdown-link">Logout</a>
+                </div>
+            
+            
+        </div>
+        </div>
+    </header>
+</body>
+</html>
+
+<script>
+  function toggleDropdown() {
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    dropdownMenu.classList.toggle("show-dropdown");
+}
+
+// Close dropdown when clicking outside
+document.addEventListener("click", function (event) {
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    const userIcon = document.querySelector(".user-icon");
+    if (dropdownMenu && userIcon && !userIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.remove("show-dropdown");
+    }
+});
+
+</script>
