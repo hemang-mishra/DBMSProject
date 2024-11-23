@@ -2,8 +2,8 @@
 // Database credentials
 $host = 'localhost'; // Hostname or IP address of your database server
 $user = 'root'; // MySQL username
-$password = 'hemangmishra'; // MySQL password
-$database = 'dbms_project'; // Name of the database
+$password = ''; // MySQL password
+$database = 'dbmsproject'; // Name of the database
 
 // Create connection
 $conn = new mysqli($host, $user, $password, $database);
