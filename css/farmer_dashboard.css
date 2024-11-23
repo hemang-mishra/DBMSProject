@@ -1,0 +1,126 @@
+/* Farmer Name Section */
+.farmer-name {
+    background-color: #3b9b40;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Stats Section */
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    background-color: white;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats div {
+    text-align: center;
+}
+
+.stats h3 {
+    margin: 0;
+    color: #388e3c;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Crops Section */
+.crops {
+    padding: 1rem;
+}
+
+.crops h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Crop Cards */
+.crop-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 280px;
+    margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.card-content h3 {
+    margin: 0.5rem 0;
+    font-size: 1.4rem;
+    color: #2e7d32;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-content p {
+    margin: 0.3rem 0;
+    color: #666;
+    font-family: 'Roboto', sans-serif;
+}
+
+.card-footer {
+    background-color: #e8f5e9;
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.card-footer .price {
+    color: #388e3c;
+    font-weight: bold;
+}
+
+.card-footer .action-button {
+    background-color: #388e3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-footer .action-button:hover {
+    background-color: #2e7d32;
+}
