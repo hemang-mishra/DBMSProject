@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+<!-- <?php session_start(); ?> -->
 <header class="material-header">
     <!-- Logo Section -->
     <div class="logo">
@@ -15,11 +15,11 @@
 
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
-        <button class="material-button">
+        <button class="material-button" onclick="window.location.href='cart.php'">
             <span class="material-icons">shopping_cart</span>
             <span>Cart</span>
         </button>
-        <button class="material-button">
+        <button class="material-button" onclick="window.location.href='c_order.php'">
             <span class="material-icons">inventory</span>
             <span>Orders</span>
         </button>
@@ -61,3 +61,5 @@ document.addEventListener("click", function (event) {
     }
 });
 </script>
+
+<link rel="stylesheet" href="styles.css">

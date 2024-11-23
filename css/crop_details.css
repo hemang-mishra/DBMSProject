@@ -1,0 +1,136 @@
+/* Main Content */
+h1{
+    font-size: 4em;
+    margin: 0;
+    padding: 0;
+}
+
+.top-container {
+    margin: 1em 2em 0em 2em;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px #0000001a;
+}
+
+.crop-details {
+    display: flex;
+    width: 100%;
+    gap: 0px;
+
+}
+
+.lower-container {
+    margin: 1em 2em 1em 2em;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-section img {
+    border-radius: 2em;
+    width: 90%;
+    max-width: 40em; /* Limits the maximum size */
+    margin: 2em 1em 2em 1em ; /* Centers the image within its container */
+    object-fit: cover;
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Removes unwanted spacing around the image */
+}
+
+.details-section {
+    width: 50%;
+    gap: 1em;
+}
+
+.price {
+    font-size: 2em;
+    color: #1b5e20;
+}
+
+.add-to-cart {
+    background: var(--color-cart-button-background);
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-material-button-text);
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.rating-value {
+    font-size: 4em;
+    margin: 1em;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: center; /* Align text and icon vertically */
+    justify-content: center; /* Center content horizontally if needed */
+    gap: 0.12em; /* Space between the rating and the icon */
+}
+
+.star-icon {
+    color: rgb(255, 183, 0); /* Make the star icon yellow */
+    font-size: 20px; /* Adjust icon size relative to text */
+}
+
+.ratings {
+    width: 25%;
+    align-items: center;
+    align-content: center;
+
+}
+
+.stars p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stars .bar {
+    width: 80%;
+    height: 5px;
+    background-color: #ddd;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stars .bar span {
+    display: block;
+    height: 100%;
+    background-color: #ffd600;
+}
+
+/* Reviews */
+.reviews {
+    width: 55%;
+}
+
+.review-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.username {
+    font-weight: bold;
+}
+
+.review-text {
+    margin-top: 10px;
+    color: #555;
+}
