@@ -1,3 +1,10 @@
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
 
 /* Hero Section */
 .hero-section {
@@ -81,13 +88,13 @@
 }
 
 .rating {
-    font-size: 18px; /* Smaller font size */
+    font-size: 14px; /* Smaller font size */
     font-weight: normal; /* Less bold */
     color: gold; /* Gold color */
 }
 
 .review-count {
-    font-size: 18px; /* Smaller font size */
+    font-size: 14px; /* Smaller font size */
     font-style: italic; /* Italic style */
     color: #777; /* Subtle text color */
 }
