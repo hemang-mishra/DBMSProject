@@ -1,5 +1,4 @@
 
-
 /* Hero Section */
 .hero-section {
     background-color: #3b9b40;
@@ -79,6 +78,18 @@
     font-size: 20px;
     font-weight: bold;
     margin: 0;
+}
+
+.rating {
+    font-size: 18px; /* Smaller font size */
+    font-weight: normal; /* Less bold */
+    color: gold; /* Gold color */
+}
+
+.review-count {
+    font-size: 18px; /* Smaller font size */
+    font-style: italic; /* Italic style */
+    color: #777; /* Subtle text color */
 }
 
 .product-price {

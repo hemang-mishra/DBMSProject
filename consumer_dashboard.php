@@ -56,9 +56,9 @@ $result_crops = $conn->query($sql_crops);
                 <div class="card-body">
                     <h2 class="product-title">
                         <?php if ($crop['review_count'] > 0): ?>
-                            <?php echo number_format($crop['avg_rating'], 1); ?>★ <?php echo htmlspecialchars($crop['c_name']); ?> (<?php echo htmlspecialchars($crop['review_count']); ?>)
+                            <span class="rating"><?php echo number_format($crop['avg_rating'], 1); ?>★</span> <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['review_count']); ?>)</span>
                         <?php else: ?>
-                            Not reviewed yet <?php echo htmlspecialchars($crop['c_name']); ?>
+                            <span class="rating">_★</span> <?php echo htmlspecialchars($crop['c_name']); ?>
                         <?php endif; ?>
                     </h2>
                     <p class="product-price">₹<?php echo htmlspecialchars($crop['ppu']); ?>/<?php echo htmlspecialchars($crop['unit']); ?></p>
