@@ -15,14 +15,22 @@
         <div class="login-card">
             <h1 class="title">Create an Account</h1>
             <p class="subtitle">Sign up to get started.</p>
-            <form action="register_user.php" method="POST" class="form">
+            <form action="actions/register_user.php" method="POST" class="form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required placeholder="Create a password">
+                </div>
                 <div class="input-group">
                     <label for="name">Full Name</label>
                     <input type="text" name="name" id="name" required placeholder="Enter your full name">
                 </div>
                 <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" required placeholder="Create a password">
+                    <label for="contact">Contact Number</label>
+                    <input type="text" name="contact" id="contact" required placeholder="Enter your contact number">
                 </div>
                 <div class="input-group">
                     <label for="role">Register as:</label>
@@ -44,16 +52,16 @@
                     </div>
                 </div>
                 <div class="input-group">
-                    <label for="city">City</label>
-                    <input type="text" name="city" id="city" required placeholder="Enter your city">
-                </div>
-                <div class="input-group">
                     <label for="address1">Address Line 1</label>
                     <input type="text" name="address1" id="address1" required placeholder="Enter address line 1">
                 </div>
                 <div class="input-group">
                     <label for="address2">Address Line 2</label>
                     <input type="text" name="address2" id="address2" placeholder="Enter address line 2">
+                </div>
+                <div class="input-group">
+                    <label for="city">City</label>
+                    <input type="text" name="city" id="city" required placeholder="Enter your city">
                 </div>
                 <div class="input-group">
                     <label for="state">State</label>

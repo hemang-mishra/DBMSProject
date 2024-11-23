@@ -8,19 +8,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/auth.css">
 </head>
-<header>
-<?php include("header.php") ?>
-</header>
 <body>
-    
+<?php include("header.php"); ?>
     <div class="login-container">
         <div class="login-card">
             <h1 class="title">Welcome Back!</h1>
             <p class="subtitle">Please log in to continue.</p>
-            <form action="authenticate.php" method="POST" class="form">
+            <form action="actions/authenticate.php" method="POST" class="form">
                 <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required placeholder="Enter your email">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required placeholder="Enter your username">
                 </div>
                 <div class="input-group">
                     <label for="password">Password</label>

@@ -45,7 +45,7 @@ body {
     position: sticky;
     top: 0;
     width: 100%;
-    z-index: 1000;
+    box-sizing: border-box;
 }
 
 .material-header .logo {

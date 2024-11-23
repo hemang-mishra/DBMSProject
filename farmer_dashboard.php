@@ -16,6 +16,8 @@ include 'header.php';
 <div class="content">
     <h1>Welcome to the Material 3 Design!</h1>
     <p>This is the main content of the page.</p>
+    <?php echo htmlspecialchars($_SESSION['username']); ?>
+    <?php echo htmlspecialchars($_SESSION['user_id']); ?>
 </div>
 
 </body>
