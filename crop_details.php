@@ -14,7 +14,7 @@
     <?php
     include('db_connection.php');
 
-    $cid = 12;
+    $cid = 1;
 
     $query = "SELECT * FROM crop,farmer WHERE c_id='$cid' AND crop.f_id = farmer.f_id";
 
@@ -28,6 +28,9 @@
     $crop_img = $row['img_url'];
     $price = $row['ppu'];
     $unit = $row['unit'];
+    $shelf_life = $row['shelf_life'];
+    $description = $row['c_desc'];
+    $avl_qty = $row['c_qty'];
 
 
     $query = "SELECT AVG(rating) as avg FROM review WHERE c_id = $cid";
@@ -35,7 +38,7 @@
     $result = $conn->query($query);
     $row = $result->fetch_assoc();
 
-    $avg_rating = round($row['avg'], 2);
+    $avg_rating = round($row['avg'], 1);
 
 
     $query = "SELECT COUNT(*) as one_star FROM review WHERE c_id = $cid AND rating = 1";
@@ -77,7 +80,7 @@
     $four_prog = 100 * $four_star / $sum;
     $five_prog = 100 * $five_star / $sum;
     include 'header.php';
-
+    
     ?>
 
 
@@ -89,11 +92,14 @@
                 <img src="<?php echo $crop_img ?>" alt="Crop Image">
             </div>
             <div class="details-section">
-                <p><?php echo $farmer_name ?>'s</p>
+                <p><em><?php echo $farmer_name ?>'s</em></p>
                 <h1><?php echo $crop_name ?></h1>
                 <p class="price">₹<?php echo $price ?>/<?php echo $unit ?></p>
                 <button class="add-to-cart">Add to Cart</button>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste vero nemo quod velit quasi eius molestiae! Veniam, iusto alias similique mollitia expedita impedit inventore consequuntur earum officiis! Laudantium fugit velit perferendis aut! Ea sequi assumenda voluptas aliquid corporis doloribus accusamus autem, in repellendus fugit. Tenetur, doloremque cum. Necessitatibus quaerat, laborum asperiores eaque error consectetur, quidem quisquam libero fugit enim doloremque iure at dignissimos aliquam nesciunt earum cupiditate ad magnam! Incidunt debitis suscipit ex, nesciunt labore libero fugit voluptate consequuntur modi qui? Illum, pariatur voluptates. Nobis quia nulla laboriosam perferendis quidem unde ipsam, laborum ad et deleniti a quisquam officia id!</p>
+                <p><b>Shelf Life:</b> <?php echo $shelf_life?> days</p>
+                <p><b>Available Quantity:</b> <?php echo $avl_qty; echo $unit;?></p>
+                <!-- <h4>Description</h4> -->
+                <p><em><?php echo $description?></em></p>
 
             </div>
         </div>
