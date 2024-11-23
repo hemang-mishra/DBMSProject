@@ -2,6 +2,7 @@
 h1{
     font-size: 4em;
     margin: 0;
+    padding: 0;
 }
 
 .top-container {
@@ -40,6 +41,7 @@ h1{
 
 .details-section {
     width: 50%;
+    gap: 1em;
 }
 
 .price {
@@ -48,12 +50,18 @@ h1{
 }
 
 .add-to-cart {
-    background-color: #6200ea;
-    color: white;
-    padding: 10px 15px;
+    background: var(--color-cart-button-background);
     border: none;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 50px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-material-button-text);
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
 }
 
 .rating-value {
