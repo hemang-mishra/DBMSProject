@@ -1,0 +1,123 @@
+
+/* Hero Section */
+.hero-section {
+    background-color: #3b9b40;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem; /* Increased gap for better spacing */
+    padding: 0 2rem;
+    margin: 20px;
+}
+
+/* Card Styles */
+.product-card {
+    background-color: white;
+    color: #333; /* Dark text color for contrast */
+    border-radius: 16px;
+    padding: 16px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ddd; /* Light border for subtle contrast */
+    position: relative; /* Position relative to place shelf life absolutely */
+    margin: 0 auto; /* Center the card within its grid cell */
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.product-icon img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 16px 16px 0 0; /* Rounded top corners */
+}
+
+.shelf-life {
+    font-size: 14px;
+    font-weight: bold;
+    color: #388e3c; /* Green color */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.card-body {
+    text-align: center;
+    margin: 16px 0;
+}
+
+.product-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.rating {
+    font-size: 18px; /* Smaller font size */
+    font-weight: normal; /* Less bold */
+    color: gold; /* Gold color */
+}
+
+.review-count {
+    font-size: 18px; /* Smaller font size */
+    font-style: italic; /* Italic style */
+    color: #777; /* Subtle text color */
+}
+
+.product-price {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.seller-name {
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+    color: #777; /* Subtle text for seller name */
+}
+
+/* Button Styles */
+.add-to-cart-btn {
+    background-color: #388e3c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #2e7d32;
+    transform: scale(1.05);
+}
