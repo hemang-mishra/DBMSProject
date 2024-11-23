@@ -19,7 +19,7 @@
             <span class="material-icons">shopping_cart</span>
             <span>Cart</span>
         </button>
-        <button class="material-button">
+        <button class="material-button" onclick="window.location.href='c_order.php'">
             <span class="material-icons">inventory</span>
             <span>Orders</span>
         </button>
@@ -61,3 +61,5 @@
     }
   });
 </script>
+
+<link rel="stylesheet" href="styles.css">
