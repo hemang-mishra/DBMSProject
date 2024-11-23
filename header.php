@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material 3 Header</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Add Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
-    <header class="material-header">
+
+<header class="material-header">
         <!-- Logo Section -->
         <div class="logo">
             <span class="material-icons">eco</span> <span>GreenLeaf</span>
@@ -33,15 +23,12 @@
                 <span class="material-icons">inventory</span>
                 <span>Orders</span>
             </button>
-            <button class="material-button">
-                <span class="material-icons">person</span>
-                <span>Profile</span>
-            </button>
+            
         
 
         <!-- User Icon with Dropdown -->
         <div class="user-dropdown">
-            
+        <?php if (isset($_SESSION['username'])): ?>
                 <!-- If user is logged in -->
                 <div class="user-icon" onclick="toggleDropdown()">
                     <img src="assets/user_icon.png" alt="User Icon" />
@@ -51,13 +38,16 @@
                     <a href="profile.php" class="dropdown-link">Profile</a>
                     <a href="logout.php" class="dropdown-link">Logout</a>
                 </div>
-            
-            
+                <?php else: ?>  
+                    <button class="material-button">
+                <span class="material-icons">person</span>
+                <span>Login</span>
+            </button>
+            <?php endif; ?>
         </div>
         </div>
     </header>
-</body>
-</html>
+
 
 <script>
   function toggleDropdown() {
