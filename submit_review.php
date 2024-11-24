@@ -1,84 +1,94 @@
 <?php
-// Start the session
 session_start();
+include("db_connection.php");
 
-// Include the database connection file
-require_once 'db_connection.php';
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Ensure the user is logged in
+// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    echo "You must be logged in to submit a review.";
-    exit;
+    // Redirect to login page
+    header("Location: login.php");
+    exit();
 }
 
-// Get data from the form submission
-if (isset($_POST['order_id']) && isset($_POST['c_id']) && isset($_POST['comment']) && isset($_POST['rating'])) {
-    $order_id = $_POST['order_id'];
-    $c_id = $_POST['c_id'];
+// Get the consumer ID from the session
+$u_id = $_SESSION['user_id'];
+
+// Get the crop ID, rating, comment, and review image URL from POST request
+if (isset($_POST['c_id']) && isset($_POST['rating']) && isset($_POST['comment'])) {
+    $c_id = intval($_POST['c_id']);
+    $rating = intval($_POST['rating']);
     $comment = $_POST['comment'];
-    $rating = $_POST['rating'];
-    $review_image_url = $_POST['review_image_url'];
-    $user_id = $_SESSION['user_id']; // User ID from session
+    $r_img_url = isset($_POST['r_img_url']) ? $_POST['r_img_url'] : null;
 } else {
-    $_SESSION['review_message'] = "Missing review data!";
-    header("Location: order_details.php?order_id=$order_id");
-    exit;
+    die("Invalid request: Crop ID, rating, or comment not set.");
 }
 
-// Check if the order_id exists in the orders table
-$sql_check_order = "SELECT * FROM orders WHERE order_id = ?";
-$stmt_check_order = $conn->prepare($sql_check_order);
-$stmt_check_order->bind_param("i", $order_id);
-$stmt_check_order->execute();
-$result_check_order = $stmt_check_order->get_result();
+// Get the current date
+$date = date('Y-m-d');
 
-if ($result_check_order->num_rows == 0) {
-    // Order does not exist
-    $_SESSION['review_message'] = "Invalid order ID!";
-    header("Location: order_details.php?order_id=$order_id");
-    exit;
-}
-
-$stmt_check_order->close();
-
-// Check if review already exists for the user and product (c_id)
-$sql_check_review = "SELECT * FROM review WHERE u_id = ? AND c_id = ?";
+// Check if the user has already reviewed this crop
+$sql_check_review = "SELECT r_id FROM review WHERE u_id = ? AND c_id = ?";
 $stmt_check_review = $conn->prepare($sql_check_review);
-$stmt_check_review->bind_param("ii", $user_id, $c_id);
+
+if (!$stmt_check_review) {
+    die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+}
+
+$stmt_check_review->bind_param("ii", $u_id, $c_id);
 $stmt_check_review->execute();
 $result_check_review = $stmt_check_review->get_result();
 
 if ($result_check_review->num_rows > 0) {
-    // Update existing review
-    $sql_update = "UPDATE review SET comment = ?, rating = ?, r_img_url = ?, date = NOW() WHERE u_id = ? AND c_id = ?";
-    $stmt_update = $conn->prepare($sql_update);
-    $stmt_update->bind_param("ssiis", $comment, $rating, $review_image_url, $user_id, $c_id);
+    // Review exists, update the existing review
+    $review = $result_check_review->fetch_assoc();
+    $r_id = $review['r_id'];
 
-    if ($stmt_update->execute()) {
-        $_SESSION['review_message'] = "Your review has been updated successfully!";
-    } else {
-        $_SESSION['review_message'] = "Error updating the review. Please try again.";
+    $sql_update_review = "UPDATE review SET date = ?, comment = ?, r_img_url = ?, rating = ? WHERE r_id = ?";
+    $stmt_update_review = $conn->prepare($sql_update_review);
+
+    if (!$stmt_update_review) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
     }
-    $stmt_update->close();
+
+    $stmt_update_review->bind_param("sssii", $date, $comment, $r_img_url, $rating, $r_id);
+
+    if (!$stmt_update_review->execute()) {
+        die("Execute failed: (" . $stmt_update_review->errno . ") " . $stmt_update_review->error);
+    }
 } else {
-    // Insert new review into review table, using the provided order_id, user_id, and product (c_id)
-    $sql_insert = "INSERT INTO review (u_id, c_id, comment, rating, r_img_url, date) 
-                   VALUES (?, ?, ?, ?, ?, NOW())";
-    $stmt_insert = $conn->prepare($sql_insert);
-    $stmt_insert->bind_param("iisss", $user_id, $c_id, $comment, $rating, $review_image_url);
+    // Review does not exist, insert a new review
+    // Generate a new unique r_id
+    $sql_max_r_id = "SELECT MAX(r_id) AS max_r_id FROM review";
+    $result_max_r_id = $conn->query($sql_max_r_id);
 
-    if ($stmt_insert->execute()) {
-        $_SESSION['review_message'] = "Your review has been submitted successfully!";
-    } else {
-        $_SESSION['review_message'] = "Error submitting the review. Please try again.";
+    if (!$result_max_r_id) {
+        die("Error fetching max r_id: " . $conn->error);
     }
-    $stmt_insert->close();
+
+    $row_max_r_id = $result_max_r_id->fetch_assoc();
+    $new_r_id = $row_max_r_id['max_r_id'] + 1;
+
+    $sql_insert_review = "INSERT INTO review (r_id, date, comment, r_img_url, rating, u_id, c_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt_insert_review = $conn->prepare($sql_insert_review);
+
+    if (!$stmt_insert_review) {
+        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+    }
+
+    $stmt_insert_review->bind_param("isssiii", $new_r_id, $date, $comment, $r_img_url, $rating, $u_id, $c_id);
+
+    if (!$stmt_insert_review->execute()) {
+        die("Execute failed: (" . $stmt_insert_review->errno . ") " . $stmt_insert_review->error);
+    }
 }
 
-$stmt_check_review->close();
-$conn->close();
+// Redirect after successful review submission
+header("Location: c_order.php");
+exit();
 
-// Redirect back to order details page with order_id
-header("Location: order_details.php?order_id=$order_id");
-exit;
+$conn->close();
 ?>
