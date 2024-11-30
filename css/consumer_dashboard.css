@@ -67,10 +67,10 @@ background-color: white;
 }
 
 .product-icon img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 16px 16px 0 0; /* Rounded top corners */
+    width: 300px; /* Full width of parent */
+    height: 200px; /* Scales height while preserving aspect ratio */
+    object-fit: cover; 
+    overflow: hidden;
 }
 
 .shelf-life {
