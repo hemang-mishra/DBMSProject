@@ -71,6 +71,7 @@ background-color: white;
     height: 200px; /* Scales height while preserving aspect ratio */
     object-fit: cover; 
     overflow: hidden;
+    border-radius: 16px;
 }
 
 .shelf-life {

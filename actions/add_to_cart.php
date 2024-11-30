@@ -72,7 +72,7 @@ if ($result_cart->num_rows > 0) {
     $active = TRUE;
     $created_date = date('Y-m-d');
 
-    $sql_create_cart = "INSERT INTO cart (cart_id, total_price, active, created_date, u_id) VALUES (?, ?, ?, ?, ?)";
+    $sql_create_cart = "INSERT INTO cart (cart_id, total_price, active, created_date, u_id,) VALUES (?, ?, ?, ?, ?)";
     $stmt_create_cart = $conn->prepare($sql_create_cart);
 
     if (!$stmt_create_cart) {
