@@ -26,16 +26,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die("Error: Please fill all required fields.");
     }
 
+    // Get the max value of 'id' and increment by 1
+    $sql_max_id = "SELECT MAX(c_id) AS max_id FROM crop";
+    $result_max_id = $conn->query($sql_max_id);
+
+    if ($result_max_id && $result_max_id->num_rows > 0) {
+        $row_max_id = $result_max_id->fetch_assoc();
+        $new_id = $row_max_id['max_id'] + 1;
+    } else {
+        $new_id = 1; // Default to 1 if no rows exist
+    }
+
     // Prepare SQL statement to insert the crop
-    $sql = "INSERT INTO crop (c_name, c_qty, img_url, ppu, unit, shelf_life, f_id, c_desc) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO crop (c_id, c_name, c_qty, img_url, ppu, unit, shelf_life, f_id, c_desc) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
         die("Error preparing statement: " . $conn->error);
     }
 
-    $stmt->bind_param("sisdsiss", $c_name, $c_qty, $img_url, $ppu, $unit, $shelf_life, $f_id, $c_desc);
+    $stmt->bind_param("isisdsiss", $new_id, $c_name, $c_qty, $img_url, $ppu, $unit, $shelf_life, $f_id, $c_desc);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "Crop added successfully!";
+        header("Location: farmer_dashboard.php");
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 
     $stmt->close();
 }
