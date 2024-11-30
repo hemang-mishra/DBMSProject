@@ -68,11 +68,11 @@ if ($result_cart->num_rows > 0) {
     $new_cart_id = $row_max_cart_id['max_cart_id'] + 1;
 
     // Create a new cart
-    $total_price = 0;
+    $total_price_1 = 0;
     $active = TRUE;
     $created_date = date('Y-m-d');
 
-    $sql_create_cart = "INSERT INTO cart (cart_id, total_price, active, created_date, u_id) VALUES (?, ?, ?, ?, ?)";
+    $sql_create_cart = "INSERT INTO cart (cart_id, total_price_1, active, created_date, u_id) VALUES (?, ?, ?, ?, ?)";
     $stmt_create_cart = $conn->prepare($sql_create_cart);
 
     if (!$stmt_create_cart) {

@@ -60,6 +60,7 @@ if ($cart_id) {
             'crop_image' => htmlspecialchars($cropRow["img_url"]),
             'farmer_name' => htmlspecialchars($farmerRow["name"]),
             'amount' => $amount,
+            'unit' => htmlspecialchars($cropRow["unit"]),
             'price' => $price
         ];
     }
@@ -152,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
                             <div class="cart-item-content">
                                 <h3><?= $order['crop_name'] ?></h3>
                                 <p><?= $order['farmer_name'] ?></p>
-                                <p>Qty: <?= $order['amount'] ?> gram</p>
+                                <p>Qty: <?= $order['amount'],$order['unit']?></p>
                             </div>
                             <div class="cart-item-price">₹<?= $order['price'] ?></div>
                         </div>
