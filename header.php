@@ -33,7 +33,7 @@
                 </div>
                 <div class="dropdown-menu" id="dropdown-menu">
                     <p class="user-name">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></p>
-                    <a href="profile.php" class="dropdown-link">Profile</a>
+                    <a href="<?php echo $_SESSION['isConsumer'] ? 'c_profile.php' : 'f_profile.php'; ?>" class="dropdown-link">Profile</a>
                     <a href="logout.php" class="dropdown-link">Logout</a>
                 </div>
             <?php else: ?>  
