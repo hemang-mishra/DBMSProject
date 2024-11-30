@@ -61,6 +61,22 @@ body {
     margin-right: 8px;
 }
 
+.material-header .logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.material-header .logo .material-icons {
+    font-size: 30px;
+    margin-right: 8px;
+}
+
+.search-form {
+    width: 100%;
+}
+
 /* Search Bar Styling */
 .search-bar {
     flex: 1;
@@ -87,7 +103,8 @@ body {
     font-size: 16px;
     outline: none;
     color: var(--color-dropdown-text);
-    border-radius: 8px;
+    border-radius: 0;
+    width: 100%; /* Ensure the input takes up the full width */
 }
 
 .search-container input::placeholder {
@@ -98,16 +115,11 @@ body {
     background: var(--color-search-button-background);
     border: none;
     padding: 12px 18px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    color: var(--color-search-button-text);
-    font-size: 18px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
 }
-
 .search-container .search-button:hover {
     background: var(--color-search-button-hover);
     transform: translateY(-3px);
@@ -367,4 +379,16 @@ body {
 .popup-btn:hover {
     background-color: #2e7d32;
     transform: scale(1.05);
+}
+
+.input-name {
+    width: 10px;
+    flex: 1;
+    border: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    outline: none;
+    color: var(--color-dropdown-text);
+    border-radius: 0;
+    /* width: 100px; Ensure the input takes up the full width */
 }

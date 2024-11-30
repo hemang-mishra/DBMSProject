@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include("db_connection.php");
 
@@ -21,12 +21,12 @@ if (isset($_SESSION['user_id'])) {
     </div>
 
     <!-- Search Bar -->
-    <div class="search-bar">
-        <div class="search-container">
-            <input type="text" placeholder="Search for products, categories..." aria-label="Search">
-            <button class="search-button"><span class="material-icons">search</span></button>
-        </div>
+<div class="search-bar">
+    <div class="search-container">
+            <input type="text" id="search-query" placeholder="Search for products, categories..." aria-label="Search">
+        <button type="button" class="search-button" onclick="submitSearch()"><span class="material-icons">search</span></button>
     </div>
+</div>
 
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
@@ -42,7 +42,6 @@ if (isset($_SESSION['user_id'])) {
         <!-- User Icon with Dropdown -->
         <div class="user-dropdown">
             <?php if (isset($_SESSION['user_id'])): ?>
-
                 <!-- If user is logged in -->
                 <div class="user-icon" onclick="toggleDropdown()">
                     <img src="assets/user_icon.png" alt="User Icon" />
@@ -52,12 +51,11 @@ if (isset($_SESSION['user_id'])) {
                     <a href="<?php echo $_SESSION['isConsumer'] ? 'c_profile.php' : 'f_profile.php'; ?>" class="dropdown-link">Profile</a>
                     <a href="logout.php" class="dropdown-link">Logout</a>
                 </div>
-            <?php else: ?>  
+            <?php else: ?>
                 <button class="material-button" onclick="window.location.href='login.php'">
                     <span class="material-icons">person</span>
                     <span>Login</span>
                 </button>
-
             <?php endif; ?>
         </div>
     </div>
@@ -89,6 +87,26 @@ function redirectToDashboard() {
         window.location.href = 'login.php';
     <?php endif; ?>
 }
+</script>
+
+<script>
+    function submitSearch() {
+        const query = document.getElementById('search-query').value;
+        if (query) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'consumer_dashboard.php';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'search_query';
+            input.value = query;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
 </script>
 
 <link rel="stylesheet" href="styles.css">
