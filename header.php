@@ -1,7 +1,22 @@
-<!-- <?php session_start(); ?> -->
+<?php 
+session_start();
+include("db_connection.php");
+
+$isConsumer = false;
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $sql_user = "SELECT isConsumer FROM user WHERE user_id = $user_id";
+    $result_user = $conn->query($sql_user);
+    if ($result_user->num_rows > 0) {
+        $user = $result_user->fetch_assoc();
+        $isConsumer = $user['isConsumer'];
+    }
+}
+?>
+
 <header class="material-header">
     <!-- Logo Section -->
-    <div class="logo">
+    <div class="logo" onclick="redirectToDashboard()">
         <span class="material-icons">eco</span> <span>GreenLeaf</span>
     </div>
 
@@ -62,6 +77,18 @@ document.addEventListener("click", function (event) {
         dropdownMenu.classList.remove("show-dropdown");
     }
 });
+
+function redirectToDashboard() {
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <?php if ($isConsumer): ?>
+            window.location.href = 'consumer_dashboard.php';
+        <?php else: ?>
+            window.location.href = 'farmer_dashboard.php';
+        <?php endif; ?>
+    <?php else: ?>
+        window.location.href = 'login.php';
+    <?php endif; ?>
+}
 </script>
 
 <link rel="stylesheet" href="styles.css">
