@@ -46,7 +46,7 @@ $stats = $result_stats->fetch_assoc();
 </head>
 <body>
     <!-- Header -->
-     <?php include("header.php"); ?>
+    <?php include("header.php"); ?>
     <div class="farmer-name">
         <h1>Welcome, <?= htmlspecialchars($farmer['name']) ?>!</h1>
         <p>Your personalized dashboard is here.</p>
@@ -71,7 +71,9 @@ $stats = $result_stats->fetch_assoc();
             <?php
             if ($result_crops->num_rows > 0) {
                 while ($row = $result_crops->fetch_assoc()) {
-                    echo '<div class="card">';
+                    echo '<form method="POST" action="crop_details.php" class="card-form">';
+                    echo '<input type="hidden" name="c_id" value="' . htmlspecialchars($row['c_id']) . '">';
+                    echo '<div class="card" onclick="submitForm(this);">';
                     echo '<img src="' . htmlspecialchars($row['img_url']) . '" alt="' . htmlspecialchars($row['c_name']) . '">';
                     echo '<div class="card-content">';
                     echo '<h3>' . strtoupper(htmlspecialchars($row['c_name'])) . '</h3>';
@@ -83,6 +85,7 @@ $stats = $result_stats->fetch_assoc();
                     echo '<span>Per ' . htmlspecialchars($row['unit']) . '</span>';
                     echo '</div>';
                     echo '</div>';
+                    echo '</form>';
                 }
             } else {
                 echo '<p>No crops found!</p>';
@@ -90,6 +93,19 @@ $stats = $result_stats->fetch_assoc();
             ?>
         </div>
     </section>
+
+    <script>
+        function submitForm(card) {
+            console.log("Card clicked:", card); // Debugging statement
+            const form = card.closest('form');
+            console.log("Form found:", form); // Debugging statement
+            if (form) {
+                form.submit();
+            } else {
+                console.error("Form not found for card:", card); // Debugging statement
+            }
+        }
+    </script>
 </body>
 </html>
 

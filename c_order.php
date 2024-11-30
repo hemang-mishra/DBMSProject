@@ -1,5 +1,4 @@
 <?php
-
 include 'header.php';
 
 // Ensure the user is logged in
@@ -9,31 +8,29 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Include the database connection file
-require_once 'db_connection.php'; // Ensure this file correctly sets up $conn
+require_once 'db_connection.php';
 
 // Logged-in user ID
 $user_id = $_SESSION['user_id'];
 
-// Fetch orders for the logged-in user with the updated query (without payment method)
+// Fetch orders for the logged-in user
 $sql = "
     SELECT 
         orders.order_id, 
         orders.date, 
-        orders.status, 
         orders.price, 
         orders.amount, 
+        orders.status, -- Add status field
         crop.c_name AS crop_name, 
-        shipping_address.city AS shipping_city,
-        shipping_address.state AS shipping_state
+        crop.img_url AS crop_image
     FROM orders
     JOIN crop ON orders.c_id = crop.c_id
-    JOIN shipping_address ON orders.addr_id = shipping_address.addr_id
     WHERE orders.u_id = ?
-    ORDER BY orders.date DESC, orders.status ASC
+    ORDER BY orders.date DESC
 ";
 
-$stmt = $conn->prepare($sql); // Use $conn from db_connection.php
-$stmt->bind_param("i", $user_id); // Bind the user_id as parameter
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -43,49 +40,54 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order History</title>
-    <link rel="stylesheet" href="css/c_order.css"> <!-- Link to external CSS if needed -->
+    <link rel="stylesheet" href="css/c_order.css"> <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS in css folder-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
         <h1>Your Order History</h1>
     </header>
 
-    <?php
-    // Display orders in a table
-    if ($result->num_rows > 0) {
-        echo "<table>";
-        echo "<tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Total Price</th>
-                <th>Quantity</th>
-                <th>Crop Name</th>
-                <th>Shipping Address</th>
-              </tr>";
+    <div class="order-container">
+        <?php
+        // Display orders in stacked blocks
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $order_id = $row['order_id'];
+                $crop_name = htmlspecialchars($row['crop_name']);
+                $quantity = htmlspecialchars($row['amount']);
+                $price = htmlspecialchars($row['price']);
+                $date = htmlspecialchars($row['date']);
+                $status = htmlspecialchars($row['status']); // Add status
+                $image_url = htmlspecialchars($row['crop_image'] ?? "https://via.placeholder.com/60"); // Fallback if no image
 
-        while ($row = $result->fetch_assoc()) {
-            // Format the shipping address (combine city, state)
-            $shipping_address = $row['shipping_city'] . ", " . $row['shipping_state'];
+                // Determine status display
+                $status_text = ($status === "Completed") ? "✔ Completed" : "⌛ Pending";
 
-            echo "<tr>
-                    <td>{$row['order_id']}</td>
-                    <td>{$row['date']}</td>
-                    <td>{$row['status']}</td>
-                    <td>&#8377;{$row['price']}</td>
-                    <td>{$row['amount']}</td>
-                    <td>{$row['crop_name']}</td>
-                    <td>{$shipping_address}</td>
-                  </tr>";
+                echo "
+                    <div class='order-block' onclick=\"window.location.href='order_details.php?order_id=$order_id'\">
+                        <div class='order-image'>
+                            <img src='$image_url' alt='$crop_name'>
+                        </div>
+                        <div class='order-details'>
+                            <h3>$crop_name</h3>
+                            <p>Quantity: $quantity</p>
+                            <p>Price: ₹$price</p>
+                            <p>Date: $date</p>
+                            <p class='order-status'>$status_text</p> <!-- Status -->
+                        </div>
+                    </div>
+                ";
+            }
+        } else {
+            echo "<p>You have not placed any orders yet.</p>";
         }
-        echo "</table>";
-    } else {
-        echo "<p>You have not placed any orders yet.</p>";
-    }
 
-    // Close the prepared statement and database connection
-    $stmt->close();
-    $conn->close();
-    ?>
+        $stmt->close();
+        $conn->close();
+        ?>
+    </div>
 </body>
 </html>
