@@ -78,7 +78,7 @@ if (!empty($search_query)) {
                             <?php if ($crop['review_count'] > 0): ?>
                                 <span class="rating"><?php echo number_format($crop['avg_rating'], 1); ?>★</span> <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['review_count']); ?>)</span>
                             <?php else: ?>
-                                Not reviewed yet <?php echo htmlspecialchars($crop['c_name']); ?>
+                                - ★ <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['review_count']); ?>)</span>
                             <?php endif; ?>
                         </h2>
                         <p class="product-price">₹<?php echo htmlspecialchars($crop['ppu']); ?>/<?php echo htmlspecialchars($crop['unit']); ?></p>
