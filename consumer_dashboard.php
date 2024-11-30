@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 include("db_connection.php");
 
 // Get the search query if it exists
-$search_query = isset($_POST['search_query']) ? $_POST['search_query'] : '';
+$search_query = isset($_GET['search_query']) ? $_GET['search_query'] : '';
 
 // Fetch crops from the database with average rating
 if (!empty($search_query)) {
