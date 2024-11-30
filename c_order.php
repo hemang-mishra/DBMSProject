@@ -1,5 +1,4 @@
 <?php
-include 'header.php';
 session_start();
 
 // Ensure the user is logged in
@@ -47,6 +46,7 @@ $result = $stmt->get_result();
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+    <?php include("header.php"); ?>
     <header>
         <h1>Your Order History</h1>
     </header>
