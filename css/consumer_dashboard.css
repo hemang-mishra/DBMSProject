@@ -22,7 +22,7 @@
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem; /* Increased gap for better spacing */
+    gap: 3rem; /* Increased gap for better spacing */
     padding: 0 2rem;
     margin: 20px;
 }
