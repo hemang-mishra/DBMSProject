@@ -124,3 +124,26 @@
 .card-footer .action-button:hover {
     background-color: #2e7d32;
 }
+
+/* Add Crop Button */
+.add-crop-btn-container {
+    text-align: center; /* Center the button horizontally */
+    margin-top: 20px; /* Add some space above the button */
+    margin-bottom: 30px; /* Add some space below the button */
+}
+
+.add-crop-btn {
+    background: var(--color-material-button-background);
+    color: var(--color-material-button-text);
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.add-crop-btn:hover {
+    background: var(--color-material-button-hover);
+}

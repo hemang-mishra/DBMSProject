@@ -64,6 +64,12 @@ $stats = $result_stats->fetch_assoc();
         </div>
     </section>
 
+    <!-- Add Crop Button -->
+    <div class="add-crop-btn-container">
+        <a href="add_crop.php" class="add-crop-btn">Add Crop</a>
+    </div>
+
+
     <!-- Crops Section -->
     <section class="crops">
         <h2>Your Crops</h2>
