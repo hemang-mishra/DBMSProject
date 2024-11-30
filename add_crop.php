@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <!-- Header -->
-    <?php include("header.php"); ?>
+    <?php include("header_f.php"); ?>
     <div class="add-crop-section">
     <h2>Add New Crop</h2>
     <form action="submit_crop.php" method="POST">
