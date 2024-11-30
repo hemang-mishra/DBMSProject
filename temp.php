@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include("db_connection.php");
 
@@ -13,34 +13,13 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 ?>
-
 <header class="material-header">
-    <!-- Logo Section -->
-    <div class="logo" onclick="redirectToDashboard()">
-        <span class="material-icons">eco</span> <span>GreenLeaf</span>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <div class="search-container">
-            <input type="text" placeholder="Search for products, categories..." aria-label="Search">
-            <button class="search-button"><span class="material-icons">search</span></button>
+    <div class="header-container">
+        <div class="logo" onclick="redirectToDashboard()">
+            <img src="assets/logo.png" alt="Logo" />
+            <span>GreenLeaf</span>
         </div>
-    </div>
-
-    <!-- Navigation Buttons -->
-    <div class="nav-buttons">
-        <button class="material-button" onclick="window.location.href='cart.php'">
-            <span class="material-icons">shopping_cart</span>
-            <span>Cart</span>
-        </button>
-        <button class="material-button" onclick="window.location.href='c_order.php'">
-            <span class="material-icons">inventory</span>
-            <span>Orders</span>
-        </button>
-
-        <!-- User Icon with Dropdown -->
-        <div class="user-dropdown">
+        <div class="header-right">
             <?php if (isset($_SESSION['user_id'])): ?>
             <!-- If user is logged in -->
             <div class="user-icon" onclick="toggleDropdown()">

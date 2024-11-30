@@ -2,11 +2,6 @@
 // Start the session
 session_start();
 
-include("db_connection.php");
-
-// Fetch farmer ID from session
-$f_id = $_SESSION['user_id'];
-
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     // If not logged in, redirect to the sign-in page
@@ -14,21 +9,32 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+include("db_connection.php");
+
 // Fetch farmer's details
+$f_id = $_SESSION['user_id'];
 $sql_farmer = "SELECT name FROM farmer WHERE f_id = $f_id";
 $result_farmer = $conn->query($sql_farmer);
 $farmer = $result_farmer->fetch_assoc();
 
 // Fetch farmer's crops
-$sql_crops = "SELECT * FROM crop WHERE f_id = $f_id";
+$sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
+              AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count, COUNT(orders.order_id) AS order_count
+              FROM crop
+              JOIN farmer ON crop.f_id = farmer.f_id
+              LEFT JOIN review ON crop.c_id = review.c_id
+              LEFT JOIN orders ON crop.c_id = orders.c_id AND orders.status = 'Completed'
+              WHERE crop.f_id = $f_id
+              GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name";
 $result_crops = $conn->query($sql_crops);
 
 // Fetch farmer's stats
 $sql_stats = "SELECT 
-                COUNT(*) AS total_delivered,
+                COUNT(orders.order_id) AS total_delivered,
                 AVG(review.rating) AS avg_rating
               FROM crop
               LEFT JOIN review ON crop.c_id = review.c_id
+              LEFT JOIN orders ON crop.c_id = orders.c_id AND orders.status = 'Completed'
               WHERE crop.f_id = $f_id";
 $result_stats = $conn->query($sql_stats);
 $stats = $result_stats->fetch_assoc();
@@ -40,60 +46,70 @@ $stats = $result_stats->fetch_assoc();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmer Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/farmer_dashboard.css"> <!-- Link to external CSS -->
+    <link rel="stylesheet" href="css/farmer_dashboard.css"> <!-- Link to external CSS in css folder-->
+    <link rel="stylesheet" href="css/consumer_dashboard.css"> <!-- Link to external CSS in css folder-->
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
     <?php include("header.php"); ?>
+
+    <!-- Farmer Name Section -->
     <div class="farmer-name">
-        <h1>Welcome, <?= htmlspecialchars($farmer['name']) ?>!</h1>
-        <p>Your personalized dashboard is here.</p>
+        <h1>Welcome, <?php echo htmlspecialchars($farmer['name']); ?>!</h1>
     </div>
 
     <!-- Stats Section -->
-    <section class="stats">
+    <div class="stats">
         <div>
-            <h3><?= $stats['total_delivered'] ?? 0 ?></h3>
-            <p>Products Delivered</p>
+            <h3>Total Delivered</h3>
+            <p><?php echo htmlspecialchars($stats['total_delivered']); ?></p>
         </div>
         <div>
-            <h3><?= number_format($stats['avg_rating'], 1) ?? 'N/A' ?></h3>
-            <p>Average Rating</p>
+            <h3>Average Rating</h3>
+            <p><?php echo number_format($stats['avg_rating'], 1); ?>★</p>
         </div>
-    </section>
+    </div>
 
     <!-- Crops Section -->
-    <section class="crops">
+    <div class="crops">
         <h2>Your Crops</h2>
         <div class="crop-cards">
-            <?php
-            if ($result_crops->num_rows > 0) {
-                while ($row = $result_crops->fetch_assoc()) {
-                    echo '<form method="POST" action="crop_details.php" class="card-form">';
-                    echo '<input type="hidden" name="c_id" value="' . htmlspecialchars($row['c_id']) . '">';
-                    echo '<div class="card" onclick="submitForm(this);">';
-                    echo '<img src="' . htmlspecialchars($row['img_url']) . '" alt="' . htmlspecialchars($row['c_name']) . '">';
-                    echo '<div class="card-content">';
-                    echo '<h3>' . strtoupper(htmlspecialchars($row['c_name'])) . '</h3>';
-                    echo '<p>Quantity: ' . htmlspecialchars($row['c_qty']) . ' ' . htmlspecialchars($row['unit']) . '</p>';
-                    echo '<p>Shelf Life: ' . ($row['shelf_life'] ?? 'N/A') . ' days</p>';
-                    echo '</div>';
-                    echo '<div class="card-footer">';
-                    echo '<span class="price">₹' . htmlspecialchars(number_format($row['ppu'], 2)) . '</span>';
-                    echo '<span>Per ' . htmlspecialchars($row['unit']) . '</span>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</form>';
-                }
-            } else {
-                echo '<p>No crops found!</p>';
-            }
-            ?>
+            <?php while ($crop = $result_crops->fetch_assoc()): ?>
+                <form method="POST" action="crop_details.php" class="card-form">
+                <input type="hidden" name="c_id" value="<?php echo htmlspecialchars($crop['c_id']); ?>">
+                
+                <div class="card" onclick="submitForm(this);">
+                    <div class="card-header">
+                        <div class="product-icon">
+                            <img src="<?php echo htmlspecialchars($crop['img_url']); ?>" alt="<?php echo htmlspecialchars($crop['c_name']); ?> Icon" />
+                        </div>
+                        <div class="shelf-life">
+                            <?php echo htmlspecialchars($crop['shelf_life']); ?> days
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">
+                            <?php echo htmlspecialchars($crop['c_name']); ?>
+                        </h3>
+                        <p class="product-price">₹<?php echo htmlspecialchars($crop['ppu']); ?>/<?php echo htmlspecialchars($crop['unit']); ?></p>
+                        <p class="rating">
+                            <?php if ($crop['review_count'] > 0): ?>
+                                <?php echo number_format($crop['avg_rating'], 1); ?>★ (<?php echo htmlspecialchars($crop['review_count']); ?> reviews)
+                            <?php else: ?>
+                                Not reviewed yet
+                            <?php endif; ?>
+                        </p>
+                        <p class="order-count">
+                            <?php echo htmlspecialchars($crop['order_count']); ?> orders
+                        </p>
+                    </div>
+                </div>
+                </form>
+            <?php endwhile; ?>
         </div>
-    </section>
-
+    </div>
     <script>
         function submitForm(card) {
             console.log("Card clicked:", card); // Debugging statement
