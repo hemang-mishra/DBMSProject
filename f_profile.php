@@ -56,7 +56,7 @@ $total_order_amount_sold = $stats_result['total_order_amount_sold'];
 </head>
 <body>
     <!-- Header -->
-    <?php include("header.php"); ?>
+    <?php include("header_f.php"); ?>
 
     <div class="container">
         <!-- Stats Container -->
