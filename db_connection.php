@@ -2,7 +2,7 @@
 // Database credentials
 $host = 'localhost'; // Hostname or IP address of your database server
 $user = 'root'; // MySQL username
-$password = 'hemangmishra'; // MySQL password
+$password = ''; // MySQL password
 $database = 'dbms_project'; // Name of the database
 
 

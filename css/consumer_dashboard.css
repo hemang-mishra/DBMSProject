@@ -21,7 +21,7 @@
 /* Product Grid */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 280px));
     gap: 3rem; /* Increased gap for better spacing */
     padding: 0 2rem;
     margin: 20px;
@@ -50,6 +50,7 @@ background-color: white;
     /* Ensures the content doesn't overflow during zoom */
     z-index: 1;
         /* Base z-index */
+    max-width: 300px;
 }
 .product-card:hover {
     transform: scale(1.05);
@@ -67,7 +68,7 @@ background-color: white;
 }
 
 .product-icon img {
-    width: 300px; /* Full width of parent */
+    width: 280px; /* Full width of parent */
     height: 200px; /* Scales height while preserving aspect ratio */
     object-fit: cover; 
     overflow: hidden;
@@ -99,7 +100,7 @@ background-color: white;
 }
 
 .rating {
-    font-size: 14px; /* Smaller font size */
+    font-size: 1.2em; /* Smaller font size */
     font-weight: normal; /* Less bold */
     color: gold; /* Gold color */
 }

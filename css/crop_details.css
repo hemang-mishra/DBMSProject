@@ -31,11 +31,13 @@ h1{
 
 .image-section img {
     border-radius: 2em;
-    width: 90%;
-    max-width: 40em; /* Limits the maximum size */
-    margin: 2em 1em 2em 1em ; /* Centers the image within its container */
-    object-fit: cover;
+    width: 600px; /* Limits the maximum size */
+    
+    margin: 2em 3em 2em 1em ; /* Centers the image within its container */
+    
     height: auto; /* Maintains aspect ratio */
+    max-height: 25em;
+    object-fit: cover;
     display: block; /* Removes unwanted spacing around the image */
 }
 

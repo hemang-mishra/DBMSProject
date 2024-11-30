@@ -93,7 +93,7 @@ function redirectToDashboard() {
         const query = document.getElementById('search-query').value;
         if (query) {
             const form = document.createElement('form');
-            form.method = 'POST';
+            form.method = 'GET';
             form.action = 'consumer_dashboard.php';
 
             const input = document.createElement('input');
