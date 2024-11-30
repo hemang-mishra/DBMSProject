@@ -22,11 +22,11 @@ if (isset($_SESSION['user_id'])) {
 
     <!-- Search Bar -->
     <div class="search-bar">
-        <div class="search-container">
-            <input type="text" placeholder="Search for products, categories..." aria-label="Search">
-            <button class="search-button"><span class="material-icons">search</span></button>
-        </div>
+    <div class="search-container">
+            <input type="text" id="search-query" placeholder="Search for products, categories..." aria-label="Search">
+        <button type="button" class="search-button" onclick="submitSearch()"><span class="material-icons">search</span></button>
     </div>
+</div>
 
     <!-- Navigation Buttons -->
     <div class="nav-buttons">
@@ -59,6 +59,7 @@ if (isset($_SESSION['user_id'])) {
     </div>
 </header>
 
+
 <script>
 function toggleDropdown() {
     const dropdownMenu = document.getElementById("dropdown-menu");
@@ -85,6 +86,26 @@ function redirectToDashboard() {
         window.location.href = 'login.php';
     <?php endif; ?>
 }
+</script>
+
+<script>
+    function submitSearch() {
+        const query = document.getElementById('search-query').value;
+        if (query) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'farmer_dashboard.php';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'search_query';
+            input.value = query;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
 </script>
 
 <link rel="stylesheet" href="styles.css">
