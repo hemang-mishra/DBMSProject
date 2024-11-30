@@ -83,7 +83,7 @@
                 <p><em><?php echo $farmer_name ?>'s</em></p>
                 <h1><?php echo $crop_name ?></h1>
                 <p class="price">₹<?php echo $price ?>/<?php echo $unit ?></p>
-                <button class="add-to-cart" onclick="confirmAddToCart(<?php echo $crop['c_id']; ?>)">Add to Cart</button>
+                <button class="add-to-cart" onclick="confirmAddToCart(<?php echo $cid; ?>)">Add to Cart</button>
                 <p><b>Shelf Life:</b> <?php echo $shelf_life?> days</p>
                 <p><b>Available Quantity:</b> <?php echo $avl_qty; echo $unit;?></p>
                 <p><em><?php echo $description?></em></p>
@@ -138,15 +138,17 @@
             </div>
              <input type="hidden" id="c_id_input" name="c_id" value="'.$cid.'">
             <button type="submit" class="popup-btn">Confirm</button>
-            <button type="button" id="cancel-btn" class="popup-btn">Cancel</button>
-        </form>
+            <button type="button" id="cancel-btn" class="popup-btn" onclick="hidePopup()">Cancel</button>
+            </form>
             </div>'
         ?>
     </div>
 </body>
 </html>
 
+
 <script>
+    
         let selectedCropId = null;
 
         function confirmAddToCart(cropId) {
@@ -162,7 +164,15 @@
         });
 
         document.getElementById('cancel-btn').addEventListener('click', function() {
-            document.getElementById('confirmation-popup').style.display = 'none';
             selectedCropId = null;
+            var popup = document.getElementById('confirmation-popup');
+            popup.style.display = 'none'; // Hide the popup
         });
-    </script>
+
+        function hidePopup(){
+            
+            document.getElementById('confirmation-popup').style.display = 'none';
+        }
+
+       
+</script>

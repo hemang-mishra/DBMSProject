@@ -13,7 +13,7 @@ if (isset($_SESSION['user_id'])) {
     }
 }
 ?>
-<header class="material-header">
+<header class="">
     <div class="header-container">
         <div class="logo" onclick="redirectToDashboard()">
             <img src="assets/logo.png" alt="Logo" />

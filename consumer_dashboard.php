@@ -11,14 +11,32 @@ if (!isset($_SESSION['user_id'])) {
 
 include("db_connection.php");
 
+// Get the search query if it exists
+$search_query = isset($_POST['search_query']) ? $_POST['search_query'] : '';
+
 // Fetch crops from the database with average rating
-$sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
-              AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count
-              FROM crop
-              JOIN farmer ON crop.f_id = farmer.f_id
-              LEFT JOIN review ON crop.c_id = review.c_id
-              GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name";
-$result_crops = $conn->query($sql_crops);
+if (!empty($search_query)) {
+    $sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
+                  AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count
+                  FROM crop
+                  JOIN farmer ON crop.f_id = farmer.f_id
+                  LEFT JOIN review ON crop.c_id = review.c_id
+                  WHERE crop.c_name LIKE ? OR farmer.name LIKE ?
+                  GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name";
+    $stmt = $conn->prepare($sql_crops);
+    $search_term = '%' . $search_query . '%';
+    $stmt->bind_param('ss', $search_term, $search_term);
+    $stmt->execute();
+    $result_crops = $stmt->get_result();
+} else {
+    $sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
+                  AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count
+                  FROM crop
+                  JOIN farmer ON crop.f_id = farmer.f_id
+                  LEFT JOIN review ON crop.c_id = review.c_id
+                  GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name";
+    $result_crops = $conn->query($sql_crops);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
