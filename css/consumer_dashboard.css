@@ -1,4 +1,5 @@
 /* Hero Section */
+
 .hero-section {
     background-color: #3b9b40;
     color: white;
@@ -28,8 +29,9 @@
 
 /* Card Styles */
 .product-card {
-    background-color: white;
-    color: #333; /* Dark text color for contrast */
+background-color: white;
+    color: #333;
+    /* Dark text color for contrast */
     border-radius: 16px;
     padding: 16px;
     width: 100%;
@@ -37,9 +39,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ddd; /* Light border for subtle contrast */
-    position: relative; /* Position relative to place shelf life absolutely */
-    margin: 0 auto; /* Center the card within its grid cell */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 1px solid #ddd;
+    /* Light border for subtle contrast */
+    position: relative;
+    /* Position relative to place shelf life absolutely */
+    margin: 0 auto ;
+    /* Center the card within its grid cell */
+    overflow: hidden;
+    /* Ensures the content doesn't overflow during zoom */
+    z-index: 1;
+        /* Base z-index */
+}
+.product-card:hover {
+    transform: scale(1.05);
+        /* Slight zoom-in effect (5% larger) */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        /* Enhance the shadow during hover */
+        z-index: 99;
 }
 
 .card-header {
@@ -74,6 +91,7 @@
 }
 
 .product-title {
+    
     font-size: 20px;
     font-weight: bold;
     margin: 0;

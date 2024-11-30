@@ -58,8 +58,9 @@
     }
 
     .cart-item img {
-        width: 60px;
-        height: 60px;
+        object-fit: cover;
+        width: 100px;
+        /* height: 60px; */
         border-radius: var(--border-radius);
         background-color: var(--background-color);
     }
