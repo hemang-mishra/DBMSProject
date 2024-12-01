@@ -14,15 +14,17 @@ include("db_connection.php");
 // Get the search query if it exists
 $search_query = isset($_GET['search_query']) ? $_GET['search_query'] : '';
 
-// Fetch crops from the database with average rating
+// Fetch crops from the database with average rating and order count
 if (!empty($search_query)) {
     $sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
-                  AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count
+                  AVG(review.rating) AS avg_rating, COUNT(orders.order_id) AS order_count
                   FROM crop
                   JOIN farmer ON crop.f_id = farmer.f_id
                   LEFT JOIN review ON crop.c_id = review.c_id
-                  WHERE crop.c_name LIKE ? OR farmer.name LIKE ?
-                  GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name";
+                  LEFT JOIN orders ON crop.c_id = orders.c_id AND orders.status = 'Completed'
+                  WHERE crop.c_name LIKE ? OR farmer.name LIKE ? AND crop.is_available = 1
+                  GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name
+                  ORDER BY avg_rating DESC";
     $stmt = $conn->prepare($sql_crops);
     $search_term = '%' . $search_query . '%';
     $stmt->bind_param('ss', $search_term, $search_term);
@@ -30,11 +32,15 @@ if (!empty($search_query)) {
     $result_crops = $stmt->get_result();
 } else {
     $sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
-                  AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count
+                  AVG(review.rating) AS avg_rating, COUNT(orders.order_id) AS order_count
                   FROM crop
                   JOIN farmer ON crop.f_id = farmer.f_id
                   LEFT JOIN review ON crop.c_id = review.c_id
-                  GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name";
+                  LEFT JOIN orders ON crop.c_id = orders.c_id AND orders.status = 'Completed'
+                  WHERE crop.is_available = 1
+                  GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name
+                  
+                  ORDER BY avg_rating DESC";
     $result_crops = $conn->query($sql_crops);
 }
 ?>
@@ -75,10 +81,10 @@ if (!empty($search_query)) {
                     </div>
                     <div class="card-body">
                         <h2 class="product-title">
-                            <?php if ($crop['review_count'] > 0): ?>
-                                <span class="rating"><?php echo number_format($crop['avg_rating'], 1); ?>★</span> <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['review_count']); ?>)</span>
+                            <?php if ($crop['order_count'] > 0): ?>
+                                <span class="rating"><?php echo number_format($crop['avg_rating'], 1); ?>★</span> <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['order_count']); ?>)</span>
                             <?php else: ?>
-                                - ★ <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['review_count']); ?>)</span>
+                                - ★ <?php echo htmlspecialchars($crop['c_name']); ?> <span class="review-count">(<?php echo htmlspecialchars($crop['order_count']); ?>)</span>
                             <?php endif; ?>
                         </h2>
                         <p class="product-price">₹<?php echo htmlspecialchars($crop['ppu']); ?>/<?php echo htmlspecialchars($crop['unit']); ?></p>
