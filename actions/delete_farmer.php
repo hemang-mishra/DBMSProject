@@ -5,25 +5,20 @@ include('../db_connection.php');
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']); // Convert the 'id' to an integer
-    echo "The user ID to delete is: " . $id;
+    echo "The farmer ID to delete is: " . $id;
     // Check if the user exists
 
-    $query = "DELETE FROM review WHERE u_id = $id";
+    $query = "DELETE FROM review WHERE c_id IN (SELECT c_id FROM crop WHERE crop.f_id = $id)";
+    $result = $conn->query($query);
+
+    $query = "DELETE FROM crop WHERE f_id = $id";
+    $result = $conn->query($query);
+
+    $query = "DELETE FROM farmer WHERE f_id = $id";
     $result = $conn->query($query);
 
 
-    $query = "DELETE FROM orders WHERE u_id = $id";
-    $result = $conn->query($query);
-
-
-    $query = "DELETE FROM cart WHERE u_id = $id";
-    $result = $conn->query($query);
-
-    $query = "DELETE FROM consumer WHERE u_id = $id";
-    $result = $conn->query($query);
-
-
-    header("Location: ../admin/consumer_list.php");
+    header("Location: ../admin/farmer_list.php");
     // $query = "DELETE FROM farmer WHERE f_id = $id";
     // $result = $conn->query($query);
 
@@ -34,3 +29,4 @@ if (isset($_GET['id'])) {
 } else {
     echo "No user ID provided.";
 }
+?>

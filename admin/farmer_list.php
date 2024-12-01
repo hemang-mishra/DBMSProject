@@ -80,7 +80,7 @@ if ($result === false) {
 <script>
     function confirmDeletion(userId) {
         if (confirm("Are you sure you want to delete this farmer?")) {
-            window.location.href = `delete_user.php?id=${userId}`;
+            window.location.href = `../actions/delete_farmer.php?id=${userId}`;
         }
     }
 </script>
