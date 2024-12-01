@@ -12,6 +12,15 @@
 
 <body>
     <?php
+    session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // If not logged in, redirect to the sign-in page
+    header("Location: login.php");
+    exit();
+}
+
     include('db_connection.php');
 
     // Get the crop ID from the POST request
