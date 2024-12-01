@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($row['isConsumer']) {
                 header("Location: ../consumer_dashboard.php");
             } else {
-                header("Location: ../farmer_dashboard.php");
+                header("Location: ../1.php");
             }
             exit();
         } else {
