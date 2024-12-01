@@ -22,7 +22,7 @@ $search_query = isset($_POST['search_query']) ? $_POST['search_query'] : '';
 
 // Fetch farmer's crops with average rating and number of orders
 if (!empty($search_query)) {
-    $sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
+    $sql_crops = "SELECT crop.c_id, crop.c_name,crop.is_available, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
                   AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count, COUNT(orders.order_id) AS order_count
                   FROM crop
                   JOIN farmer ON crop.f_id = farmer.f_id
@@ -36,7 +36,7 @@ if (!empty($search_query)) {
     $stmt->execute();
     $result_crops = $stmt->get_result();
 } else {
-    $sql_crops = "SELECT crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
+    $sql_crops = "SELECT crop.c_id, crop.c_name,crop.is_available, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name AS farmer_name,
                   AVG(review.rating) AS avg_rating, COUNT(review.r_id) AS review_count, COUNT(orders.order_id) AS order_count
                   FROM crop
                   JOIN farmer ON crop.f_id = farmer.f_id
@@ -106,17 +106,21 @@ $stats = $result_stats->fetch_assoc();
                 <div class="card" onclick="submitForm(this);">
                     <div class="card-header">
                         <div class="product-icon">
-                            <img src="<?php echo htmlspecialchars($crop['img_url']); ?>" alt="<?php echo htmlspecialchars($crop['c_name']); ?> Icon" />
+                        <img src="<?php echo htmlspecialchars($crop['img_url']); ?>" alt="<?php echo htmlspecialchars($crop['c_name']); ?> Icon" class="<?php echo $crop['is_available'] ? '' : 'grayscale'; ?>" />
                         </div>
                         <div class="shelf-life">
                             <?php echo htmlspecialchars($crop['shelf_life']); ?> days
-                        </div>
+                        </div> 
                     </div>
                     <div class="card-content">
                         <h3 class="product-title">
                             <?php echo htmlspecialchars($crop['c_name']); ?>
-                        </h3>
-                        <p class="product-price">₹<?php echo htmlspecialchars($crop['ppu']); ?>/<?php echo htmlspecialchars($crop['unit']); ?></p>
+                        </h3> 
+                        <?php if ($crop['is_available']): ?>
+                            <p class="product-price">₹<?php echo htmlspecialchars($crop['ppu']); ?>/<?php echo htmlspecialchars($crop['unit']); ?></p>
+                        <?php else: ?>
+                            <p class="product-price">Not for sale</p>
+                        <?php endif; ?>
                         <p class="rating">
                             <?php if ($crop['review_count'] > 0): ?>
                                 <?php echo number_format($crop['avg_rating'], 1); ?>★ (<?php echo htmlspecialchars($crop['review_count']); ?> reviews)
@@ -143,6 +147,21 @@ $stats = $result_stats->fetch_assoc();
             } else {
                 console.error("Form not found for card:", card); // Debugging statement
             }
+        }
+
+         // JavaScript to handle the delete button hover effect
+         document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseover', () => {
+                card.querySelector('.delete-btn').style.display = 'block';
+            });
+            card.addEventListener('mouseout', () => {
+                card.querySelector('.delete-btn').style.display = 'none';
+            });
+        });
+
+        // JavaScript to confirm deletion
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this crop?');
         }
     </script>
 </body>

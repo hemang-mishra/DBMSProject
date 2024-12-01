@@ -9,12 +9,28 @@
     <link rel="stylesheet" href="css/auth.css">
     <script>
         function validateForm() {
+            let errors = [];
+
+            // Validate Pincode
             const pincode = document.getElementById("pincode").value;
             const pincodeRegex = /^\d{6}$/;
             if (!pincodeRegex.test(pincode)) {
-                alert("Pincode must be exactly 6 digits.");
+                errors.push("Pincode must be exactly 6 digits.");
+            }
+
+            // Validate Contact Number
+            const contact = document.getElementById("contact").value;
+            const contactRegex = /^\d{10}$/;
+            if (!contactRegex.test(contact)) {
+                errors.push("Contact number must be exactly 10 digits.");
+            }
+
+            // Show errors if any
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
                 return false;
             }
+
             return true;
         }
     </script>

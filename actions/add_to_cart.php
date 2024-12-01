@@ -100,7 +100,7 @@ $row_max_order_id = $result_max_order_id->fetch_assoc();
 $new_order_id = $row_max_order_id['max_order_id'] + 1;
 
 // Insert the new order
-$sql_create_order = "INSERT INTO orders (order_id, date, status, price, amount, addr_id, id, cart_id, u_id, c_id) VALUES (?, ?, 'Pending', ?, ?, NULL, NULL, ?, ?, ?)";
+$sql_create_order = "INSERT INTO orders (order_id, date, status, price, amount, addr_id, id, cart_id, u_id, c_id) VALUES (?, ?, 'Pending', ?, ?, 2, 2, ?, ?, ?)";
 $stmt_create_order = $conn->prepare($sql_create_order);
 
 if (!$stmt_create_order) {

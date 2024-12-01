@@ -146,3 +146,32 @@
 .add-crop-btn:hover {
     background: var(--color-material-button-hover);
 }
+
+
+ /* Add styles for the delete button */
+.delete-btn {
+    display: none;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 5px;
+}
+
+.card {
+    position: relative;
+    /* Other styles for the card */
+ }
+
+.card:hover .delete-btn {
+    display: block;
+}  
+
+/* Add this CSS to apply grayscale filter */
+.grayscale {
+    filter: grayscale(100%);
+}

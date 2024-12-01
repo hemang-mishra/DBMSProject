@@ -22,7 +22,7 @@ if (!empty($search_query)) {
                   JOIN farmer ON crop.f_id = farmer.f_id
                   LEFT JOIN review ON crop.c_id = review.c_id
                   LEFT JOIN orders ON crop.c_id = orders.c_id AND orders.status = 'Completed'
-                  WHERE crop.c_name LIKE ? OR farmer.name LIKE ?
+                  WHERE crop.c_name LIKE ? OR farmer.name LIKE ? AND crop.is_available = 1
                   GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name
                   ORDER BY avg_rating DESC";
     $stmt = $conn->prepare($sql_crops);
@@ -37,7 +37,9 @@ if (!empty($search_query)) {
                   JOIN farmer ON crop.f_id = farmer.f_id
                   LEFT JOIN review ON crop.c_id = review.c_id
                   LEFT JOIN orders ON crop.c_id = orders.c_id AND orders.status = 'Completed'
+                  WHERE crop.is_available = 1
                   GROUP BY crop.c_id, crop.c_name, crop.c_qty, crop.img_url, crop.ppu, crop.unit, crop.shelf_life, farmer.name
+                  
                   ORDER BY avg_rating DESC";
     $result_crops = $conn->query($sql_crops);
 }

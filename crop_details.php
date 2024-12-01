@@ -23,6 +23,14 @@ if (!isset($_SESSION['user_id'])) {
 
     include('db_connection.php');
 
+    // Fetch user details
+$user_id = $_SESSION['user_id'];
+$sql_user = "SELECT isConsumer FROM user WHERE user_id = $user_id";
+$result_user = $conn->query($sql_user);
+$user = $result_user->fetch_assoc();
+$isConsumer = $user['isConsumer'];
+
+
     // Get the crop ID from the POST request
     $cid = $_POST['c_id'];
 
@@ -40,6 +48,7 @@ if (!isset($_SESSION['user_id'])) {
     $shelf_life = $row['shelf_life'];
     $description = $row['c_desc'];
     $avl_qty = $row['c_qty'];
+    $is_available = $row['is_available'];
 
     $query = "SELECT AVG(rating) as avg FROM review WHERE c_id = $cid";
     $result = $conn->query($query);
@@ -79,26 +88,37 @@ if (!isset($_SESSION['user_id'])) {
     $three_prog = 100 * $three_star / $sum;
     $four_prog = 100 * $four_star / $sum;
     $five_prog = 100 * $five_star / $sum;
+    if($isConsumer)
     include 'header.php';
+else
+include 'header_f.php';
     ?>
 
-    <div class="top-container">
-        <!-- Crop Details Section -->
-        <div class="crop-details">
-            <div class="image-section">
-                <img src="<?php echo $crop_img ?>" alt="Crop Image">
-            </div>
-            <div class="details-section">
-                <p><em><?php echo $farmer_name ?>'s</em></p>
-                <h1><?php echo $crop_name ?></h1>
-                <p class="price">₹<?php echo $price ?>/<?php echo $unit ?></p>
+<div class="top-container">
+    <!-- Crop Details Section -->
+    <div class="crop-details">
+        <div class="image-section">
+        <img src="<?php echo $crop_img ?>" alt="Crop Image" class="<?php echo $is_available ? '' : 'blur'; ?>">
+        </div>
+        <div class="details-section">
+            <p><em><?php echo $farmer_name ?>'s</em></p>
+            <h1><?php echo $crop_name ?></h1>
+            <?php if ($is_available): ?>
+                    <p class="price">₹<?php echo $price ?>/<?php echo $unit ?></p>
+                <?php else: ?>
+                    <p class="price">Not for sale</p>
+                <?php endif; ?>
+                <?php if ($isConsumer): ?>
                 <button class="add-to-cart" onclick="confirmAddToCart(<?php echo $cid; ?>)">Add to Cart</button>
-                <p><b>Shelf Life:</b> <?php echo $shelf_life?> days</p>
-                <p><b>Available Quantity:</b> <?php echo $avl_qty; echo $unit;?></p>
-                <p><em><?php echo $description?></em></p>
-            </div>
+            <?php else: ?>
+                <button class="add-to-cart" onclick="window.location.href='manage_crops.php?cid=<?php echo $cid; ?>'">Edit Crop</button>
+            <?php endif; ?>
+            <p><b>Shelf Life:</b> <?php echo $shelf_life?> days</p>
+            <p><b>Available Quantity:</b> <?php echo $avl_qty; echo $unit;?></p>
+            <p><em><?php echo $description?></em></p>
         </div>
     </div>
+</div>
 
     <div class="lower-container">
         <h2>Reviews and Ratings</h2>
