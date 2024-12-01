@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.main-bar{
+    display: flex;
+    margin-top: 1em;
+}
+
+.redirect-button {
+    
+    font-size: 30px;
+    font-weight: 400;
+    color: white;
+    margin: 1em;
+    background-color: #007bff; /* Blue button */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.redirect-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.redirect-button:active {
+    background-color: #004085; /* Even darker blue when clicked */
+}
+
+
+h1 {
+    margin-top: 1em;
+    font-size: 3em;
+    margin: auto;
+}
+
+table {
+    
+    width: 90%;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px 15px;
+}
+
+th {
+    background-color: #0295a9;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-container {
+    overflow-x: auto;
+}
