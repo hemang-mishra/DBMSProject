@@ -72,6 +72,37 @@ $stats = $result_stats->fetch_assoc();
     <link rel="stylesheet" href="css/consumer_dashboard.css"> <!-- Link to external CSS in css folder-->
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .sections {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.section-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.section-btn.active {
+    background-color: #4caf50;
+    color: white;
+}
+
+.section-content {
+    display: none;
+}
+
+.section-content.active {
+    display: block;
+}
+
+    </style>
 </head>
 <body>
     <!-- Header -->
