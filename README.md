@@ -35,5 +35,7 @@ Separate login options for users and farmers.
 Unique dashboards for users and farmers.
 ## Technologies Used
 Backend: PHP
+
 Frontend: HTML, CSS
+
 Database: MySQL
